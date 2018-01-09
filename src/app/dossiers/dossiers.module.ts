@@ -6,13 +6,15 @@ import { AngularSplitModule } from 'angular-split';
 import { DossierNavigationComponent } from './dossier-navigation/dossier-navigation.component';
 import { DossierMapComponent } from './dossier-map/dossier-map.component';
 import { DossierListComponent } from './dossier-list/dossier-list.component';
+import { TreeModule } from 'primeng/primeng';
 
 
 @NgModule({
   imports: [
     SharedModule,
     DossiersRoutingModule,
-    AngularSplitModule
+    AngularSplitModule,
+    TreeModule
   ],
   declarations: [DossiersComponent, DossierNavigationComponent, DossierMapComponent, DossierListComponent]
 })

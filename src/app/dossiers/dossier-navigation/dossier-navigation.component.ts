@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Message, Tree, TreeNode } from 'primeng/primeng';
 
 @Component({
   selector: 'sb-dossier-navigation',
@@ -6,10 +7,46 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./dossier-navigation.component.scss']
 })
 export class DossierNavigationComponent implements OnInit {
+  msgs: Message[];
 
-  constructor() { }
+  @ViewChild('expandingTree')
+  expandingTree: Tree;
 
-  ngOnInit() {
+  treeNode: TreeNode = {
+    label: 'Backup',
+    data: 'Backup Folder',
+    expandedIcon: 'fa-folder-open',
+    collapsedIcon: 'fa-folder'
+  };
+
+  treeNode2: TreeNode = {
+    label: 'fdsqfsqd',
+    data: 'Backup Folder',
+    expandedIcon: 'fa-folder-open',
+    collapsedIcon: 'fa-folder'
+  };
+
+  filesTree2: TreeNode[] = [this.treeNode, this.treeNode2];
+
+  selectedFile: TreeNode;
+
+  loading: boolean;
+
+
+  constructor() {
   }
 
+  ngOnInit() {
+    this.loading = false;
+  }
+
+  nodeSelect(event) {
+    this.msgs = [];
+    this.msgs.push({severity: 'info', summary: 'Node Selected', detail: event.node.label});
+  }
+
+  nodeUnselect(event) {
+    this.msgs = [];
+    this.msgs.push({severity: 'info', summary: 'Node Unselected', detail: event.node.label});
+  }
 }

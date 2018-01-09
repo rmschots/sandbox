@@ -1,3 +1,2 @@
-<p>
-  dossier-navigation works!
-</p>
+<p-tree [value]="filesTree2" selectionMode="single" [(selection)]="selectedFile"
+        (onNodeSelect)="nodeSelect($event)" (onNodeUnselect)="nodeUnselect($event)"></p-tree>
