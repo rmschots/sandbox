@@ -1,0 +1,5 @@
+<p-tree [value]="filesTree" selectionMode="single" [(selection)]="selectedFile">
+  <ng-template let-node pTemplate="default">
+    <span (dblclick)="onNodeDoubleClick(node)" class="unselectable">{{ node.label }}</span>
+  </ng-template>
+</p-tree>

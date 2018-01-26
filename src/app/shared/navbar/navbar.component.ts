@@ -16,6 +16,10 @@ export class NavbarComponent implements OnInit {
         label: 'DOSSIERS',
         icon: 'fa-book',
         routerLink: 'dossiers'
+      }, {
+        label: 'DOUBLE CLICK TREE',
+        icon: 'fa-tree',
+        routerLink: 'double-click-tree'
       }
     ];
   }
