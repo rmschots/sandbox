@@ -4,8 +4,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { MenubarModule } from 'primeng/primeng';
-import { NavbarComponent } from './navbar/navbar.component';
 import { ModuleWithProviders, NgModule } from '@angular/core';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 const PRIMENG_IMPORTS = [
   MenubarModule
@@ -27,7 +27,8 @@ const COMPONENTS = [
   ...MODALS
 ];
 
-const SERVICES = [];
+const SERVICES = [
+];
 
 const PIPES = [];
 

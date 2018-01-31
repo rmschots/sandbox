@@ -7,6 +7,7 @@ import { SharedModule } from './shared/shared.module';
 import { AppRoutingModule } from './app-routing.module';
 import { DossiersModule } from './dossiers/dossiers.module';
 import { DoubleClickTreeModule } from './double-click-tree/double-click-tree.module';
+import { NavbreadModule } from './navbread/navbread.module';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { DoubleClickTreeModule } from './double-click-tree/double-click-tree.mod
     AppRoutingModule,
     SharedModule.forRoot(),
     DossiersModule,
-    DoubleClickTreeModule
+    DoubleClickTreeModule,
+    NavbreadModule
   ],
   providers: [],
   bootstrap: [AppComponent]

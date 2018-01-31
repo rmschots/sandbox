@@ -1,0 +1,18 @@
+<split direction="horizontal">
+  <split-area size="30">
+    <div *ngIf="id$ | async; let id">
+      <h3>Id: {{ id }}</h3>
+      <a [routerLink]="['subpage1']" [routerLinkActive]="['router-link-active']"
+         [routerLinkActiveOptions]="{exact:true}">subpage1</a>
+    </div>
+  </split-area>
+  <split-area size="70">
+    <nav *ngIf="shouldListShow$ | async">
+      <a [routerLink]="['../1337']" [routerLinkActive]="['router-link-active']"
+         [routerLinkActiveOptions]="{exact:true}">1337</a>
+      <a [routerLink]="['../1338']" [routerLinkActive]="['router-link-active']"
+         [routerLinkActiveOptions]="{exact:true}">1338</a>
+    </nav>
+    <router-outlet></router-outlet>
+  </split-area>
+</split>

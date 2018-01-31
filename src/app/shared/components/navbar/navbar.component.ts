@@ -20,6 +20,10 @@ export class NavbarComponent implements OnInit {
         label: 'DOUBLE CLICK TREE',
         icon: 'fa-tree',
         routerLink: 'double-click-tree'
+      }, {
+        label: 'NAVBREAD',
+        icon: 'fa-bars',
+        routerLink: 'navbread/list'
       }
     ];
   }
