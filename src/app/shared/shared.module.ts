@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MenubarModule } from 'primeng/primeng';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { LazyTestService } from './services/lazy-test.service';
 
 const PRIMENG_IMPORTS = [
   MenubarModule
@@ -14,7 +15,6 @@ const PRIMENG_IMPORTS = [
 const MODULES = [
   CommonModule,
   RouterModule,
-  BrowserAnimationsModule,
   FormsModule,
   HttpClientModule,
   ...PRIMENG_IMPORTS
@@ -28,6 +28,7 @@ const COMPONENTS = [
 ];
 
 const SERVICES = [
+  LazyTestService
 ];
 
 const PIPES = [];

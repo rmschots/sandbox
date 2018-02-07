@@ -1,0 +1,16 @@
+<p>
+  {{ proof }}
+</p>
+<p>
+  lazy-test-service times initialized: {{ serviceInitializedAmount }}
+</p>
+<p>
+  lazy-test-service2 times called: {{ service2CalledTimes$ | async }}
+</p>
+<nav>
+  <a [routerLink]="['./lazy-test-sub1']" [routerLinkActive]="['router-link-active']"
+     [routerLinkActiveOptions]="{exact:true}">sub1</a>
+  <a [routerLink]="['./lazy-test-sub2']" [routerLinkActive]="['router-link-active']"
+     [routerLinkActiveOptions]="{exact:true}">sub2</a>
+</nav>
+<router-outlet></router-outlet>

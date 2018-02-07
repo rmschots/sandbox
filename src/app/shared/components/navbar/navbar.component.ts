@@ -24,6 +24,10 @@ export class NavbarComponent implements OnInit {
         label: 'NAVBREAD',
         icon: 'fa-bars',
         routerLink: 'navbread/list'
+      }, {
+        label: 'LAZY TEST',
+        icon: 'fa-spinner',
+        routerLink: 'lazy-test'
       }
     ];
   }

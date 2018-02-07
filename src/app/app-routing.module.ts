@@ -8,6 +8,9 @@ import { RouterModule } from '@angular/router';
         path: '',
         redirectTo: '/dossiers',
         pathMatch: 'full'
+      }, {
+        path: 'lazy-test',
+        loadChildren: './lazy-test/lazy-test.module#LazyTestModule'
       }
     ], {useHash: false})
   ],
