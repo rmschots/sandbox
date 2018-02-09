@@ -1,6 +1,7 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { LazyTest2Service } from './services/lazy-test2.service';
 import { SharedModule } from '../../shared/shared.module';
+import { ExtraService } from './services/extra.service';
 
 @NgModule({
   imports: [
@@ -9,7 +10,8 @@ import { SharedModule } from '../../shared/shared.module';
   exports: [
     SharedModule
   ],
-  declarations: []
+  declarations: [],
+  providers: [ExtraService]
 })
 export class LazyTestSharedModule {
   static forRoot(): ModuleWithProviders {

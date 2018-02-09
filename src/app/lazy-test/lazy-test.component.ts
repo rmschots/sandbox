@@ -3,6 +3,7 @@ import { LazyTestService } from '../shared/services/lazy-test.service';
 import { LazyTest2Service } from './shared/services/lazy-test2.service';
 import { Observable } from 'rxjs/Observable';
 import { NonLazyTestService } from './shared/services/non-lazy-test.service';
+import { ExtraService } from './shared/services/extra.service';
 
 @Component({
   selector: 'sb-lazy-test',
@@ -13,7 +14,8 @@ import { NonLazyTestService } from './shared/services/non-lazy-test.service';
 export class LazyTestComponent implements OnInit {
   constructor(private _lazyTestService: LazyTestService,
               private _lazyTestService2: LazyTest2Service,
-              private _nonLazyTestService: NonLazyTestService) {
+              private _nonLazyTestService: NonLazyTestService,
+              private _extraService: ExtraService) {
   }
 
   ngOnInit(): void {
