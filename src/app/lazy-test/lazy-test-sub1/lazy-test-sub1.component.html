@@ -2,3 +2,12 @@
 <p>
   {{ proof }}
 </p>
+<p>
+  lazy-test-service2 times called: {{ service2CalledTimes$ | async }}
+</p>
+<p>
+  {{ proofNonLazy }}
+</p>
+<p>
+  non-lazy-test-service times called: {{ nonLazyServiceCalledTimes$ | async }}
+</p>

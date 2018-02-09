@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { LazyTestService } from '../../../shared/services/lazy-test.service';
 import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable()
-export class LazyTest2Service {
+export class NonLazyTestService {
 
-  private _proof = 'lazy test service 2 called';
+  private _proof = 'non-lazy test service called';
   private _calledTimes$ = new BehaviorSubject<number>(0);
 
   constructor(private _lazyTestService: LazyTestService) {
-    console.log('lazy-test-service 2 init');
-    _lazyTestService.timesInitialized++;
+    console.log('non-lazy-test-service init');
+    _lazyTestService.timesInitialized2++;
   }
 
   get calledTimes$(): Observable<number> {
