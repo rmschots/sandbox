@@ -1,0 +1,4 @@
+<form [formGroup]="datePickerFormGroup">
+  <p-calendar [keepInvalid]="true" [dataType]="'string'" [dateFormat]="'dd/mm/yy'" (onInput)="calendarInput($event)" [formControlName]="'date'"></p-calendar>
+  <input pInputText title="dateText" name="dateText" formControlName="dateText">
+</form>

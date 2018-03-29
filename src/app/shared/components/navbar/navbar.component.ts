@@ -28,6 +28,10 @@ export class NavbarComponent implements OnInit {
         label: 'LAZY TEST',
         icon: 'fa-spinner',
         routerLink: 'lazy-test'
+      }, {
+        label: 'INVALID DATE PICKER',
+        icon: 'fa-calendar',
+        routerLink: 'invalid-date-picker'
       }
     ];
   }

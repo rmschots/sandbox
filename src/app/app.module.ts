@@ -8,7 +8,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { DossiersModule } from './dossiers/dossiers.module';
 import { DoubleClickTreeModule } from './double-click-tree/double-click-tree.module';
 import { NavbreadModule } from './navbread/navbread.module';
-import { LazyTestModule } from './lazy-test/lazy-test.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
