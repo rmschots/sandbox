@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { LazyTestService } from '../shared/services/lazy-test.service';
 import { LazyTest2Service } from './shared/services/lazy-test2.service';
-import { Observable } from 'rxjs/Observable';
 import { NonLazyTestService } from './shared/services/non-lazy-test.service';
 import { ExtraService } from './shared/services/extra.service';
+import { Observable } from 'rxjs/internal/Observable';
 
 @Component({
   selector: 'sb-lazy-test',

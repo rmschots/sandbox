@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { LazyTest2Service } from '../shared/services/lazy-test2.service';
 import { NonLazyTestService } from '../shared/services/non-lazy-test.service';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs/internal/Observable';
 
 @Component({
   selector: 'sb-lazy-shared-sub2',

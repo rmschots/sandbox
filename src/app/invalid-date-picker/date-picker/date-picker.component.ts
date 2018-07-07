@@ -4,6 +4,7 @@ import { Unsubscribable } from '../../shared/util/Unsubscribable';
 import { Calendar } from 'primeng/primeng';
 import * as moment from 'moment';
 import { Moment } from 'moment';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'sb-date-picker',
@@ -38,23 +39,25 @@ export class DatePickerComponent extends Unsubscribable implements ControlValueA
     });
     this.dateControl = this.datePickerFormGroup.get('date');
     this.dateTextControl = this.datePickerFormGroup.get('dateText');
-    this.dateControl.valueChanges.takeUntil(this.ngUnsubscribe$).subscribe(date => {
-      if (this.dateTextControl.value !== date) {
-        this.dateTextControl.setValue(date);
-        this._onChange(date);
-      }
-    });
-    this.dateTextControl.valueChanges.takeUntil(this.ngUnsubscribe$).subscribe(date => {
-      this._onChange(date);
-      const parsedMoment: Moment = moment(date, 'DD/MM/YYYY', true);
-      if (parsedMoment.isValid()) {
-        if (this.dateControl.value !== date) {
-          this.dateControl.setValue(date);
+    this.dateControl.valueChanges.pipe(takeUntil(this.ngUnsubscribe$))
+      .subscribe(date => {
+        if (this.dateTextControl.value !== date) {
+          this.dateTextControl.setValue(date);
+          this._onChange(date);
         }
-      } else {
-        this.calendar.inputFieldValue = date;
-      }
-    });
+      });
+    this.dateTextControl.valueChanges.pipe(takeUntil(this.ngUnsubscribe$))
+      .subscribe(date => {
+        this._onChange(date);
+        const parsedMoment: Moment = moment(date, 'DD/MM/YYYY', true);
+        if (parsedMoment.isValid()) {
+          if (this.dateControl.value !== date) {
+            this.dateControl.setValue(date);
+          }
+        } else {
+          this.calendar.inputFieldValue = date;
+        }
+      });
   }
 
   calendarInput(calendarEvent: any) {

@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Unsubscribable } from '../../shared/util/Unsubscribable';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'sb-idbread',
@@ -13,7 +14,7 @@ export class IdbreadComponent extends Unsubscribable {
 
   constructor(private _activatedRoute: ActivatedRoute) {
     super();
-    this._activatedRoute.parent.paramMap.takeUntil(this.ngUnsubscribe$)
+    this._activatedRoute.parent.paramMap.pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe(params => this.id = params.get('id'));
   }
 

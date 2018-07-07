@@ -1,13 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { MenubarModule } from 'primeng/primeng';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { LazyTestService } from './services/lazy-test.service';
-import { MomentModule } from 'angular2-moment/moment.module';
+import { MomentModule } from 'ngx-moment';
 
 const PRIMENG_IMPORTS = [
   MenubarModule

@@ -1,5 +1,5 @@
 import { OnDestroy } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs/internal/Subject';
 
 export abstract class Unsubscribable implements OnDestroy {
 

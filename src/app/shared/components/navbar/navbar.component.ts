@@ -14,24 +14,28 @@ export class NavbarComponent implements OnInit {
     this.items = [
       {
         label: 'DOSSIERS',
-        icon: 'fa-book',
+        icon: 'fa fa-fw fa-book',
         routerLink: 'dossiers'
       }, {
         label: 'DOUBLE CLICK TREE',
-        icon: 'fa-tree',
+        icon: 'fa fa-fw fa-tree',
         routerLink: 'double-click-tree'
       }, {
         label: 'NAVBREAD',
-        icon: 'fa-bars',
+        icon: 'fa fa-fw fa-bars',
         routerLink: 'navbread/list'
       }, {
         label: 'LAZY TEST',
-        icon: 'fa-spinner',
+        icon: 'fa fa-fw fa-spinner',
         routerLink: 'lazy-test'
       }, {
         label: 'INVALID DATE PICKER',
-        icon: 'fa-calendar',
+        icon: 'fa fa-fw fa-calendar',
         routerLink: 'invalid-date-picker'
+      }, {
+        label: 'INTRO DEMO',
+        icon: 'fa fa-fw fa-question-circle',
+        routerLink: 'intro-demo'
       }
     ];
   }

@@ -15,15 +15,15 @@ export class DossierNavigationComponent implements OnInit {
   treeNode: TreeNode = {
     label: 'Backup',
     data: 'Backup Folder',
-    expandedIcon: 'fa-folder-open',
-    collapsedIcon: 'fa-folder'
+    expandedIcon: 'fa fa-fw fa-folder-open',
+    collapsedIcon: 'fa fa-fw fa-folder'
   };
 
   treeNode2: TreeNode = {
     label: 'fdsqfsqd',
     data: 'Backup Folder',
-    expandedIcon: 'fa-folder-open',
-    collapsedIcon: 'fa-folder'
+    expandedIcon: 'fa fa-fw fa-folder-open',
+    collapsedIcon: 'fa fa-fw fa-folder'
   };
 
   filesTree2: TreeNode[] = [this.treeNode, this.treeNode2];

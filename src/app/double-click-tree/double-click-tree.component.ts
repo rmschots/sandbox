@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { TreeNode } from 'primeng/primeng';
 import { Unsubscribable } from '../shared/util/Unsubscribable';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'sb-double-click-tree',
@@ -18,7 +19,7 @@ export class DoubleClickTreeComponent extends Unsubscribable implements OnInit {
 
   ngOnInit() {
     this.fetchTreeNodes()
-      .takeUntil(this.ngUnsubscribe$)
+      .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe(treeNodes => {
         this.filesTree = treeNodes;
       });

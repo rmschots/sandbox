@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { LazyTestService } from '../../../shared/services/lazy-test.service';
-import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+import { Observable } from 'rxjs/internal/Observable';
 
 @Injectable()
 export class NonLazyTestService {

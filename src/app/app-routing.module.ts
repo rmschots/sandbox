@@ -1,5 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { IntroDemoModule } from './intro-demo/intro-demo.module';
 
 @NgModule({
   imports: [
@@ -14,6 +15,9 @@ import { RouterModule } from '@angular/router';
       }, {
         path: 'invalid-date-picker',
         loadChildren: './invalid-date-picker/invalid-date-picker.module#InvalidDatePickerModule'
+      }, {
+        path: 'intro-demo',
+        loadChildren: './intro-demo/intro-demo.module#IntroDemoModule'
       }
     ], {useHash: false})
   ],
