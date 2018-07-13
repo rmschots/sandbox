@@ -32,10 +32,6 @@ export class DossierNavigationComponent implements OnInit {
 
   loading: boolean;
 
-
-  constructor() {
-  }
-
   ngOnInit() {
     this.loading = false;
   }

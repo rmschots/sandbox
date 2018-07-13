@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { IntroService } from '../../services/intro.service';
 
 @Component({
@@ -6,12 +6,9 @@ import { IntroService } from '../../services/intro.service';
   templateUrl: './intro-text.component.html',
   styleUrls: ['./intro-text.component.scss']
 })
-export class IntroTextComponent implements OnInit {
+export class IntroTextComponent {
 
   constructor(private _introService: IntroService) {
-  }
-
-  ngOnInit() {
   }
 
   nextStep() {

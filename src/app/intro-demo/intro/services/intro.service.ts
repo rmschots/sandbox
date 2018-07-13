@@ -9,9 +9,9 @@ import { IntroOverlayService } from './intro-overlay.service';
 @Injectable()
 export class IntroService {
 
-  private _activePlaybook: IntroPlaybook;
-
   stepMap: Map<string, IntroStepDirective> = new Map<string, IntroStepDirective>();
+
+  private _activePlaybook: IntroPlaybook;
 
   constructor(private _introOverlayService: IntroOverlayService) {
   }

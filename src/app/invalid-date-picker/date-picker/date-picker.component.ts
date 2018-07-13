@@ -25,11 +25,9 @@ export class DatePickerComponent extends Unsubscribable implements ControlValueA
 
   @ViewChild(Calendar) calendar: Calendar;
 
-  _onChange: (value: any) => void = () => {
-  };
+  _onChange: (value: any) => void = () => undefined;
 
-  _onTouched = () => {
-  };
+  _onTouched = () => undefined;
 
   constructor(private _fb: FormBuilder) {
     super();
@@ -66,6 +64,7 @@ export class DatePickerComponent extends Unsubscribable implements ControlValueA
   }
 
   writeValue(obj: any): void {
+    // Do nothing
   }
 
   registerOnChange(fn: (value: any) => {}): void {
@@ -77,6 +76,7 @@ export class DatePickerComponent extends Unsubscribable implements ControlValueA
   }
 
   setDisabledState(isDisabled: boolean) {
+    // Do nothing
   }
 
 }
