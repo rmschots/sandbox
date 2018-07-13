@@ -1,42 +1,84 @@
 import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable, OnDestroy, } from '@angular/core';
 import { IntroStepDirective } from '../intro-step/intro-step.directive';
+import { IntroOverlayComponent } from '../overlay/intro-overlay/intro-overlay.component';
+import { OverlayConfig } from '@angular/cdk/overlay/typings/overlay-config';
+import { ComponentPortal } from '@angular/cdk/portal';
+import { Overlay, OverlayRef } from '@angular/cdk/overlay';
+import { IntroEmptyComponent } from '../intro-empty/intro-empty.component';
 
 @Injectable()
 export class IntroOverlayService implements OnDestroy {
-  private _containerElement: HTMLElement;
-  private _highlightElement: HTMLElement;
-  private _textElement: HTMLElement;
+  private _overlayRef: OverlayRef;
+
+  private _highlightOverlayRef: OverlayRef;
+  private _textOverlayRef: OverlayRef;
 
   private _currentHighlight: IntroStepDirective;
 
-  constructor(@Inject(DOCUMENT) private _document: any) {
+  constructor(@Inject(DOCUMENT) private _document: any, private _overlay: Overlay) {
   }
 
-  highlight(introStepDirective: IntroStepDirective) {
+  highlight(introStepDirective: IntroStepDirective, textComponent: any) {
     this.cancelCurrentHighlight();
     this._currentHighlight = introStepDirective;
-    const clientRect: ClientRect = introStepDirective.elementRef.nativeElement.getBoundingClientRect();
-    introStepDirective.elementRef.nativeElement.classList.add('intro-front-element');
 
-    this._highlightElement.style.width = `${clientRect.width + 10}px`;
-    this._highlightElement.style.height = `${clientRect.height + 10}px`;
-    this._highlightElement.style.top = `${clientRect.top - 5}px`;
-    this._highlightElement.style.left = `${clientRect.left - 5}px`;
+    const elementRef = introStepDirective.elementRef;
+    const positionStrategy = this._overlay.position()
+      .flexibleConnectedTo(elementRef)
+      .withPositions([{
+        originX: 'start',
+        originY: 'top',
+        overlayX: 'start',
+        overlayY: 'top'
+      }])
+      .withPush(false)
+      .withDefaultOffsetX(-5)
+      .withDefaultOffsetY(-5);
+    const clientRect: ClientRect = elementRef.nativeElement.getBoundingClientRect();
+    elementRef.nativeElement.classList.add('intro-front-element');
+    const overlayConfig: OverlayConfig = {
+      hasBackdrop: false,
+      backdropClass: 'cdk-backdrop',
+      panelClass: 'cdk-panel',
+      width: `${clientRect.width + 10}px`,
+      height: `${clientRect.height + 10}px`,
+      positionStrategy: positionStrategy
+    };
+    this._highlightOverlayRef = this._overlay.create(overlayConfig);
+    const introPortal = new ComponentPortal(IntroOverlayComponent);
+    this._highlightOverlayRef.attach(introPortal);
 
-    this._textElement.style.top = `${clientRect.top + clientRect.height + 20}px`;
-    this._textElement.style.left = `${clientRect.left}px`;
-    this._textElement.style.visibility = 'visible';
+    // text
+    const positionStrategy2 = this._overlay.position()
+      .flexibleConnectedTo(elementRef)
+      .withPositions([{
+        originX: 'start',
+        originY: 'bottom',
+        overlayX: 'start',
+        overlayY: 'top',
+      }])
+      .withDefaultOffsetX(10)
+      .withDefaultOffsetY(10);
+    const overlayConfig2: OverlayConfig = {
+      hasBackdrop: false,
+      positionStrategy: positionStrategy2
+    };
+    this._textOverlayRef = this._overlay.create(overlayConfig2);
+    const introPortal2 = new ComponentPortal(textComponent);
+    this._textOverlayRef.attach(introPortal2);
   }
 
   cancelCurrentHighlight() {
     if (this._currentHighlight) {
       const highlightToCancel = this._currentHighlight;
-      setTimeout(() => {
-        if (highlightToCancel) {
-          highlightToCancel.elementRef.nativeElement.classList.remove('intro-front-element');
-        }
-      }, 300);
+      this._highlightOverlayRef.detach();
+      this._textOverlayRef.detach();
+      if (highlightToCancel) {
+        highlightToCancel.elementRef.nativeElement.classList.remove('intro-front-element');
+      }
+      this._highlightOverlayRef = undefined;
+      this._textOverlayRef = undefined;
       this._currentHighlight = undefined;
     }
   }
@@ -46,41 +88,26 @@ export class IntroOverlayService implements OnDestroy {
   }
 
   showOverlay() {
-    if (!this._containerElement) {
-      this.createContainer();
+    if (!this._overlayRef) {
+      const overlayConfig: OverlayConfig = {
+        hasBackdrop: true,
+        backdropClass: 'cdk-backdrop',
+        scrollStrategy: this._overlay.scrollStrategies.block(),
+        panelClass: 'cdk-panel',
+        width: `100px`,
+        height: `100px`,
+        positionStrategy: this._overlay.position().global().centerHorizontally().centerVertically()
+      };
+      this._overlayRef = this._overlay.create(overlayConfig);
+      this._overlayRef.attach(new ComponentPortal(IntroEmptyComponent));
     }
   }
 
   hideOverlay() {
     this.cancelCurrentHighlight();
-    if (this._containerElement && this._containerElement.parentNode) {
-      this._containerElement.parentNode.removeChild(this._containerElement);
-      this._containerElement = undefined;
+    if (this._overlayRef) {
+      this._overlayRef.detach();
+      this._overlayRef = undefined;
     }
-    if (this._highlightElement && this._highlightElement.parentNode) {
-      this._highlightElement.parentNode.removeChild(this._highlightElement);
-      this._highlightElement = undefined;
-    }
-    if (this._textElement && this._textElement.parentNode) {
-      this._textElement.parentNode.removeChild(this._textElement);
-      this._textElement = undefined;
-    }
-  }
-
-  protected createContainer(): void {
-    const container = this._document.createElement('div');
-    const highlight = this._document.createElement('div');
-    const text = this._document.createElement('div');
-    text.innerHTML = 'TEST CONTENT';
-
-    container.classList.add('intro-overlay-container');
-    highlight.classList.add('intro-overlay-highlight');
-    text.classList.add('intro-overlay-text');
-    this._document.body.appendChild(container);
-    this._document.body.appendChild(highlight);
-    this._document.body.appendChild(text);
-    this._containerElement = container;
-    this._highlightElement = highlight;
-    this._textElement = text;
   }
 }

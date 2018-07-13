@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { IntroService } from '../../services/intro.service';
 
 @Component({
   selector: 'sb-intro-text',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class IntroTextComponent implements OnInit {
 
-  constructor() { }
+  constructor(private _introService: IntroService) {
+  }
 
   ngOnInit() {
   }
 
+  nextStep() {
+    this._introService.nextStep();
+  }
 }

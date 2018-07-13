@@ -8,8 +8,9 @@ import { IntroOverlayService } from '../services/intro-overlay.service';
 export class IntroStepDirective implements OnDestroy {
   private _stepName: string;
 
-  constructor(public elementRef: ElementRef, private _introService: IntroService, private _overlayContainer: IntroOverlayService) {
-
+  constructor(public elementRef: ElementRef,
+              private _introService: IntroService,
+              private _introOverlayService: IntroOverlayService) {
   }
 
   @Input()
@@ -27,7 +28,7 @@ export class IntroStepDirective implements OnDestroy {
     return this._stepName;
   }
 
-  activate() {
-    this._overlayContainer.highlight(this);
+  activate(textComponent: any) {
+    this._introOverlayService.highlight(this, textComponent);
   }
 }

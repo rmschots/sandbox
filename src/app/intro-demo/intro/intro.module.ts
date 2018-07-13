@@ -2,10 +2,11 @@ import { ModuleWithProviders, NgModule } from '@angular/core';
 import { IntroStepDirective } from './intro-step/intro-step.directive';
 import { SharedModule } from '../../shared/shared.module';
 import { IntroService } from './services/intro.service';
-import { IntroOverlayService } from './services/intro-overlay.service';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { IntroOverlayComponent } from './overlay/intro-overlay/intro-overlay.component';
 import { IntroTextComponent } from './overlay/intro-text/intro-text.component';
+import { IntroOverlayService } from './services/intro-overlay.service';
+import { IntroEmptyComponent } from './intro-empty/intro-empty.component';
 
 const MODULES = [
   OverlayModule
@@ -26,7 +27,8 @@ const GUARDS = [];
 
 const ENTRY_COMPONENTS = [
   IntroOverlayComponent,
-  IntroTextComponent
+  IntroTextComponent,
+  IntroEmptyComponent
 ];
 
 @NgModule({
