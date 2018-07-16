@@ -1,4 +1,13 @@
 <p>
-  intro-text works!
+  {{ data.text }}
 </p>
-<button (click)="nextStep()">next</button>
+<div class="intro-arrow arrow-{{ direction$ | async}}"></div>
+<button *ngIf="!data.automatic" sbIntroPreviousButton [sbHideWhenDisabled]="true">
+  previous
+</button>
+<button *ngIf="!data.automatic" sbIntroNextButton>
+  {{ (isLastStep$ | async) ? 'complete' : 'next' }}
+</button>
+<button *ngIf="!data.automatic" sbIntroCancelButton>
+  cancel
+</button>

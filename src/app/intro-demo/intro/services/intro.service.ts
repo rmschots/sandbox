@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { IntroPlaybook, IntroPlaybookEntry } from '../models/intro-playbook';
 import { IntroStepDirective } from '../intro-step/intro-step.directive';
-import { concatMap, filter, last } from 'rxjs/operators';
+import { concatMap, last } from 'rxjs/operators';
 import { from } from 'rxjs/internal/observable/from';
 import { timer } from 'rxjs/internal/observable/timer';
 import { IntroOverlayService } from './intro-overlay.service';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class IntroService {
@@ -12,6 +13,8 @@ export class IntroService {
   stepMap: Map<string, IntroStepDirective> = new Map<string, IntroStepDirective>();
 
   private _activePlaybook: IntroPlaybook;
+  private _canDoPreviousChanges$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  private _isLastStepActiveChanges$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
   constructor(private _introOverlayService: IntroOverlayService) {
   }
@@ -41,6 +44,10 @@ export class IntroService {
     }
   }
 
+  stopIntro() {
+    this.stopPlaybook();
+  }
+
   nextStep() {
     if (!this._activePlaybook) {
       console.error('No active playbook');
@@ -58,25 +65,66 @@ export class IntroService {
       return;
     }
     this._activePlaybook.activeEntry = this._activePlaybook.entries[currentIndex];
-    nextStep.activate(this._activePlaybook.options.textComponent);
+    this._canDoPreviousChanges$.next(currentIndex > 0);
+    this._isLastStepActiveChanges$.next(currentIndex === this._activePlaybook.entries.length - 1);
+    nextStep.activate(this._activePlaybook.activeEntry.component, this._activePlaybook.activeEntry.data);
+  }
+
+  previousStep() {
+    if (!this._activePlaybook) {
+      console.error('No active playbook');
+      return;
+    }
+    if (!this.canDoPrevious) {
+      console.error('Cannot go to previous step');
+      return;
+    }
+    let currentIndex = this._activePlaybook.entries.indexOf(this._activePlaybook.activeEntry);
+    let previousStep: IntroStepDirective = null;
+    while (!previousStep && currentIndex - 1 >= 0) {
+      currentIndex--;
+      const previousEntry = this._activePlaybook.entries[currentIndex];
+      previousStep = this.stepMap.get(previousEntry.id);
+    }
+    if (!previousStep) {
+      console.error('No existing available steps');
+      return;
+    }
+    this._activePlaybook.activeEntry = this._activePlaybook.entries[currentIndex];
+    this._canDoPreviousChanges$.next(currentIndex > 0);
+    this._isLastStepActiveChanges$.next(currentIndex === this._activePlaybook.entries.length - 1);
+    previousStep.activate(this._activePlaybook.activeEntry.component, this._activePlaybook.activeEntry.data);
+  }
+
+  get isLastStepActive() {
+    return this._isLastStepActiveChanges$.getValue();
+  }
+
+  get isLastStepActiveChanges$() {
+    return this._isLastStepActiveChanges$.asObservable();
+  }
+
+  get canDoPrevious() {
+    return this._canDoPreviousChanges$.getValue();
+  }
+
+  get canDoPreviousChanges$() {
+    return this._canDoPreviousChanges$.asObservable();
   }
 
   private doAutoplay() {
     from(this._activePlaybook.entries)
       .pipe(
-        filter(playbookEntry => {
-          const stepAvailable = this.stepMap.has(playbookEntry.id);
-          if (!stepAvailable) {
-            console.warn(`trying to run that that doesn't exist: ${playbookEntry.id}`);
-          }
-          return stepAvailable;
-        }),
-        concatMap((playbookEntry: IntroPlaybookEntry) => {
+        concatMap((playbookEntry: IntroPlaybookEntry<any>) => {
           const step = this.stepMap.get(playbookEntry.id);
+          if (!step) {
+            console.warn(`trying to run that that doesn't exist: ${playbookEntry.id}`);
+            return timer(0);
+          }
           console.log('running step', step);
           this._activePlaybook.activeEntry = playbookEntry;
-          step.activate(this._activePlaybook.options.textComponent);
-          return timer(1000);
+          step.activate(this._activePlaybook.activeEntry.component, this._activePlaybook.activeEntry.data);
+          return timer(playbookEntry.displayTime ? playbookEntry.displayTime : 1000);
         }),
         last()
       )
@@ -90,13 +138,11 @@ export class IntroService {
   }
 
   private activatePlaybook(playbook: IntroPlaybook) {
-    // this._introOverlayService.showOverlay();
     this._introOverlayService.showOverlay();
     this._activePlaybook = playbook;
   }
 
   private stopPlaybook() {
-    // this._introOverlayService.hideOverlay();
     this._introOverlayService.hideOverlay();
     this._activePlaybook.activeEntry = undefined;
     this._activePlaybook = undefined;

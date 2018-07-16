@@ -6,14 +6,22 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import { IntroOverlayComponent } from './overlay/intro-overlay/intro-overlay.component';
 import { IntroTextComponent } from './overlay/intro-text/intro-text.component';
 import { IntroOverlayService } from './services/intro-overlay.service';
-import { IntroEmptyComponent } from './intro-empty/intro-empty.component';
+import { IntroEmptyComponent } from './overlay/intro-empty/intro-empty.component';
+import { CommonModule } from '@angular/common';
+import { IntroNextButtonDirective } from './intro-next-button/intro-next-button.directive';
+import { IntroCancelButtonDirective } from './intro-cancel-button/intro-cancel-button.directive';
+import { IntroPreviousButtonDirective } from './intro-previous-button/intro-previous-button.directive';
 
 const MODULES = [
-  OverlayModule
+  OverlayModule,
+  CommonModule
 ];
 
 const COMPONENTS = [
-  IntroStepDirective
+  IntroStepDirective,
+  IntroNextButtonDirective,
+  IntroCancelButtonDirective,
+  IntroPreviousButtonDirective
 ];
 
 const SERVICES = [
@@ -38,7 +46,8 @@ const ENTRY_COMPONENTS = [
   exports: [
     ...MODULES,
     ...COMPONENTS,
-    ...PIPES
+    ...PIPES,
+    ...ENTRY_COMPONENTS
   ],
   declarations: [
     ...COMPONENTS,

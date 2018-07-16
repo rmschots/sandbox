@@ -1,6 +1,7 @@
 import { Directive, ElementRef, Input, OnDestroy } from '@angular/core';
 import { IntroService } from '../services/intro.service';
 import { IntroOverlayService } from '../services/intro-overlay.service';
+import { ComponentType } from '@angular/cdk/portal/typings/portal';
 
 @Directive({
   selector: '[sbIntroStep]'
@@ -28,7 +29,7 @@ export class IntroStepDirective implements OnDestroy {
     return this._stepName;
   }
 
-  activate(textComponent: any) {
-    this._introOverlayService.highlight(this, textComponent);
+  activate(textComponent: ComponentType<any>, introTextData: any) {
+    this._introOverlayService.highlight(this, textComponent, introTextData);
   }
 }
