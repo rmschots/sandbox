@@ -1,4 +1,4 @@
-import { Directive, ElementRef, Input, OnDestroy } from '@angular/core';
+import { Directive, ElementRef, Input, OnDestroy, TemplateRef, ViewContainerRef } from '@angular/core';
 import { IntroService } from '../services/intro.service';
 import { IntroOverlayService } from '../services/intro-overlay.service';
 import { ComponentType } from '@angular/cdk/portal/typings/portal';
@@ -31,5 +31,9 @@ export class IntroStepDirective implements OnDestroy {
 
   activate(textComponent: ComponentType<any>, introTextData: any) {
     this._introOverlayService.highlight(this, textComponent, introTextData);
+  }
+
+  activateTemplate(templateRef: TemplateRef<any>, viewContainerRef: ViewContainerRef) {
+    this._introOverlayService.highlightTemplate(this, templateRef, viewContainerRef);
   }
 }

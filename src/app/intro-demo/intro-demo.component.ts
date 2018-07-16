@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
 import { IntroService } from './intro/services/intro.service';
 import { IntroTextComponent, IntroTextComponentData } from './intro/overlay/intro-text/intro-text.component';
 import { Unsubscribable } from '../shared/util/Unsubscribable';
@@ -12,6 +12,8 @@ import { IntroPlaybookOptions } from './intro/models/intro-playbook-options';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class IntroDemoComponent extends Unsubscribable {
+
+  @ViewChild('introTextTemplate') introTextTemplate: TemplateRef<any>;
 
   private _playbookEntriesAutomatic: IntroPlaybookEntry<any>[] = [
     {
@@ -40,7 +42,7 @@ export class IntroDemoComponent extends Unsubscribable {
   ];
 
   private _playbookEntriesManual: IntroPlaybookEntry<any>[] = [
-    {id: 'step1', data: {text: 'this is the first step'} as IntroTextComponentData, component: IntroTextComponent},
+    {id: 'step1', data: {text: 'this is the first step'} as IntroTextComponentData},
     {id: 'step2', data: {text: 'this is the second step'} as IntroTextComponentData, component: IntroTextComponent},
     {id: 'step2.5', data: {text: 'this a nonexisting step'} as IntroTextComponentData, component: IntroTextComponent},
     {id: 'step3', data: {text: 'this is the third step'} as IntroTextComponentData, component: IntroTextComponent}
@@ -53,11 +55,13 @@ export class IntroDemoComponent extends Unsubscribable {
     autoplay: false
   };
 
-  constructor(private _introService: IntroService) {
+  constructor(private _introService: IntroService, private _viewContainerRef: ViewContainerRef) {
     super();
   }
 
   startIntroManual() {
+    this._playbookEntriesManual[0].templateRef = this.introTextTemplate;
+    this._playbookEntriesManual[0].viewContainerRef = this._viewContainerRef;
     this._introService.startIntro({entries: this._playbookEntriesManual, options: this._playbookOptionsManual});
   }
 

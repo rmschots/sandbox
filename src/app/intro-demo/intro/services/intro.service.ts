@@ -67,7 +67,14 @@ export class IntroService {
     this._activePlaybook.activeEntry = this._activePlaybook.entries[currentIndex];
     this._canDoPreviousChanges$.next(currentIndex > 0);
     this._isLastStepActiveChanges$.next(currentIndex === this._activePlaybook.entries.length - 1);
-    nextStep.activate(this._activePlaybook.activeEntry.component, this._activePlaybook.activeEntry.data);
+    if (this._activePlaybook.activeEntry.component) {
+      nextStep.activate(this._activePlaybook.activeEntry.component, this._activePlaybook.activeEntry.data);
+    } else if (this._activePlaybook.activeEntry.templateRef && this._activePlaybook.activeEntry.viewContainerRef) {
+      nextStep.activateTemplate(this._activePlaybook.activeEntry.templateRef, this._activePlaybook.activeEntry.viewContainerRef);
+    } else {
+      console.error('must set component or both templateRef and viewContainerRef');
+      this.stopPlaybook();
+    }
   }
 
   previousStep() {
@@ -93,7 +100,14 @@ export class IntroService {
     this._activePlaybook.activeEntry = this._activePlaybook.entries[currentIndex];
     this._canDoPreviousChanges$.next(currentIndex > 0);
     this._isLastStepActiveChanges$.next(currentIndex === this._activePlaybook.entries.length - 1);
-    previousStep.activate(this._activePlaybook.activeEntry.component, this._activePlaybook.activeEntry.data);
+    if (this._activePlaybook.activeEntry.component) {
+      previousStep.activate(this._activePlaybook.activeEntry.component, this._activePlaybook.activeEntry.data);
+    } else if (this._activePlaybook.activeEntry.templateRef && this._activePlaybook.activeEntry.viewContainerRef) {
+      previousStep.activateTemplate(this._activePlaybook.activeEntry.templateRef, this._activePlaybook.activeEntry.viewContainerRef);
+    } else {
+      console.error('must set component or both templateRef and viewContainerRef');
+      this.stopPlaybook();
+    }
   }
 
   get isLastStepActive() {
@@ -123,7 +137,14 @@ export class IntroService {
           }
           console.log('running step', step);
           this._activePlaybook.activeEntry = playbookEntry;
-          step.activate(this._activePlaybook.activeEntry.component, this._activePlaybook.activeEntry.data);
+          if (this._activePlaybook.activeEntry.component) {
+            step.activate(this._activePlaybook.activeEntry.component, this._activePlaybook.activeEntry.data);
+          } else if (this._activePlaybook.activeEntry.templateRef && this._activePlaybook.activeEntry.viewContainerRef) {
+            step.activateTemplate(this._activePlaybook.activeEntry.templateRef, this._activePlaybook.activeEntry.viewContainerRef);
+          } else {
+            console.error('must set component or both templateRef and viewContainerRef');
+            this.stopPlaybook();
+          }
           return timer(playbookEntry.displayTime ? playbookEntry.displayTime : 1000);
         }),
         last()

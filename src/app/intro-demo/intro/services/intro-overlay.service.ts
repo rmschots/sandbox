@@ -1,13 +1,12 @@
 import { DOCUMENT } from '@angular/common';
-import { Inject, Injectable, Injector, NgZone, OnDestroy, } from '@angular/core';
+import { Inject, Injectable, Injector, NgZone, OnDestroy, TemplateRef, ViewContainerRef, } from '@angular/core';
 import { IntroStepDirective } from '../intro-step/intro-step.directive';
 import { IntroOverlayComponent } from '../overlay/intro-overlay/intro-overlay.component';
 import { OverlayConfig } from '@angular/cdk/overlay/typings/overlay-config';
-import { ComponentPortal, PortalInjector } from '@angular/cdk/portal';
+import { ComponentPortal, ComponentType, PortalInjector, TemplatePortal } from '@angular/cdk/portal';
 import { ConnectedPosition, FlexibleConnectedPositionStrategy, Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { IntroEmptyComponent } from '../overlay/intro-empty/intro-empty.component';
 import { INTRO_DIRECTION_LISTENER, INTRO_TEXT_DATA } from './intro.tokens';
-import { ComponentType } from '@angular/cdk/portal/typings/portal';
 import { Observable } from 'rxjs/Observable';
 import { ConnectedOverlayPositionChange } from '@angular/cdk/overlay/typings/position/connected-position';
 import { map, take } from 'rxjs/operators';
@@ -66,48 +65,19 @@ export class IntroOverlayService implements OnDestroy {
               private _zone: NgZone) {
   }
 
+  highlightTemplate(introStepDirective: IntroStepDirective, templateRef: TemplateRef<any>, viewContainerRef: ViewContainerRef) {
+    const positionStrategy2 = this.initialHighlight(introStepDirective);
+
+    const injector = this.createInjector(this.createIntroDirectionListener(positionStrategy2));
+    const introPortal2 = new TemplatePortal(templateRef, viewContainerRef, injector);
+    this._textOverlayRef.attach(introPortal2);
+    this._textOverlayRef.getDirection();
+  }
+
   highlight(introStepDirective: IntroStepDirective, textComponent: ComponentType<any>, introTextData: any) {
-    this.cancelCurrentHighlight();
-    this._currentHighlight = introStepDirective;
+    const positionStrategy2 = this.initialHighlight(introStepDirective);
 
-    const elementRef = introStepDirective.elementRef;
-    const positionStrategy = this._overlay.position()
-      .flexibleConnectedTo(elementRef)
-      .withPositions([{
-        originX: 'start',
-        originY: 'top',
-        overlayX: 'start',
-        overlayY: 'top'
-      }])
-      .withPush(false)
-      .withDefaultOffsetX(-5)
-      .withDefaultOffsetY(-5);
-    const clientRect: ClientRect = elementRef.nativeElement.getBoundingClientRect();
-    elementRef.nativeElement.classList.add('intro-front-element');
-    const overlayConfig: OverlayConfig = {
-      hasBackdrop: false,
-      backdropClass: 'cdk-backdrop',
-      panelClass: 'cdk-panel',
-      width: `${clientRect.width + 10}px`,
-      height: `${clientRect.height + 10}px`,
-      positionStrategy: positionStrategy
-    };
-    this._highlightOverlayRef = this._overlay.create(overlayConfig);
-    const introPortal = new ComponentPortal(IntroOverlayComponent);
-    this._highlightOverlayRef.attach(introPortal);
-
-    // text
-    const positionStrategy2: FlexibleConnectedPositionStrategy = this._overlay.position()
-      .flexibleConnectedTo(elementRef)
-      .withPositions([positionBottom, positionTop, positionRight, positionLeft]);
-    const overlayConfig2: OverlayConfig = {
-      hasBackdrop: false,
-      positionStrategy: positionStrategy2,
-      panelClass: 'cdk-panel',
-    };
-    this._textOverlayRef = this._overlay.create(overlayConfig2);
-
-    const injector = this.createInjector(introTextData, this.createIntroDirectionListener(positionStrategy2));
+    const injector = this.createInjector(this.createIntroDirectionListener(positionStrategy2), introTextData);
     const introPortal2 = new ComponentPortal(textComponent, null, injector);
     this._textOverlayRef.attach(introPortal2);
     this._textOverlayRef.getDirection();
@@ -156,13 +126,58 @@ export class IntroOverlayService implements OnDestroy {
     }
   }
 
-  private createInjector(config: any, introDirectionListener: IntroDirectionListener): PortalInjector {
+  private initialHighlight(introStepDirective: IntroStepDirective) {
+    this.cancelCurrentHighlight();
+    this._currentHighlight = introStepDirective;
+
+    const elementRef = introStepDirective.elementRef;
+    const positionStrategy = this._overlay.position()
+      .flexibleConnectedTo(elementRef)
+      .withPositions([{
+        originX: 'start',
+        originY: 'top',
+        overlayX: 'start',
+        overlayY: 'top'
+      }])
+      .withPush(false)
+      .withDefaultOffsetX(-5)
+      .withDefaultOffsetY(-5);
+    const clientRect: ClientRect = elementRef.nativeElement.getBoundingClientRect();
+    elementRef.nativeElement.classList.add('intro-front-element');
+    const overlayConfig: OverlayConfig = {
+      hasBackdrop: false,
+      backdropClass: 'cdk-backdrop',
+      panelClass: 'cdk-panel',
+      width: `${clientRect.width + 10}px`,
+      height: `${clientRect.height + 10}px`,
+      positionStrategy: positionStrategy
+    };
+    this._highlightOverlayRef = this._overlay.create(overlayConfig);
+    const introPortal = new ComponentPortal(IntroOverlayComponent);
+    this._highlightOverlayRef.attach(introPortal);
+
+    // text
+    const positionStrategy2: FlexibleConnectedPositionStrategy = this._overlay.position()
+      .flexibleConnectedTo(elementRef)
+      .withPositions([positionBottom, positionTop, positionRight, positionLeft]);
+    const overlayConfig2: OverlayConfig = {
+      hasBackdrop: false,
+      positionStrategy: positionStrategy2,
+      panelClass: 'cdk-panel',
+    };
+    this._textOverlayRef = this._overlay.create(overlayConfig2);
+    return positionStrategy2;
+  }
+
+  private createInjector(introDirectionListener: IntroDirectionListener, config?: any): PortalInjector {
     // Instantiate new WeakMap for our custom injection tokens
     const injectionTokens = new WeakMap();
 
     // Set custom injection tokens
-    injectionTokens.set(INTRO_TEXT_DATA, config);
     injectionTokens.set(INTRO_DIRECTION_LISTENER, introDirectionListener);
+    if (config) {
+      injectionTokens.set(INTRO_TEXT_DATA, config);
+    }
 
     // Instantiate new PortalInjector
     return new PortalInjector(this._injector, injectionTokens);

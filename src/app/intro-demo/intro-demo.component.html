@@ -7,9 +7,23 @@
 <p style="text-align: right">
   <span sbIntroStep="step3">intro-demo works!</span>
 </p>
-<!--<p>-->
-  <!--<span sbIntroStep="step4">intro-demo works!</span>-->
-<!--</p>-->
 
 <button (click)="startIntroManual()">start intro</button>
 <button (click)="startIntroAutomatic()">start automatic intro</button>
+
+<ng-template #introTextTemplate>
+  <div class="intro-template">
+    <p>
+      This comes from a template
+    </p>
+    <button sbIntroPreviousButton [sbHideWhenDisabled]="true">
+      previous
+    </button>
+    <button sbIntroNextButton>
+      next
+    </button>
+    <button sbIntroCancelButton>
+      cancel
+    </button>
+  </div>
+</ng-template>

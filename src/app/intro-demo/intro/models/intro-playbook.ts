@@ -1,6 +1,6 @@
 import { IntroPlaybookOptions } from './intro-playbook-options';
 import { ComponentType } from '@angular/cdk/portal/typings/portal';
-import { TemplateRef } from '@angular/core';
+import { TemplateRef, ViewContainerRef } from '@angular/core';
 
 export interface IntroPlaybook {
   entries: IntroPlaybookEntry<any>[];
@@ -13,5 +13,6 @@ export interface IntroPlaybookEntry<T> {
   displayTime?: number;
   component?: ComponentType<T>;
   templateRef?: TemplateRef<T>;
+  viewContainerRef?: ViewContainerRef;
   data: any;
 }
