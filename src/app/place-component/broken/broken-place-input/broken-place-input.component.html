@@ -1,0 +1,33 @@
+<div class="ui-g" [formGroup]="place">
+  <div class="ui-g-6">
+    <div class="ui-g-12 nopad readonly-input" *ngIf="readonly">
+      {{ countryValue | country | async }}
+    </div>
+
+    <ng-container *ngIf="!readonly">
+      <sb-broken-country-dropdown formControlName="country"
+                            [placeholder]="placeholderCountry"></sb-broken-country-dropdown>
+      <sb-validation-messages [control]="countryControl"></sb-validation-messages>
+    </ng-container>
+  </div>
+  <div class="ui-g-6" formGroupName="municipality">
+    <div class="ui-g-12 nopad readonly-input" *ngIf="readonly">
+      {{ municipalityValue | municipality | async }}
+    </div>
+    <ng-container *ngIf="!readonly">
+      <sb-broken-municipality-dropdown
+        *ngIf="countryValue?.nisCode === belgium"
+        formControlName="nisCode"
+        [placeholder]="placeholderMunicipality">
+      </sb-broken-municipality-dropdown>
+      <sb-validation-messages [control]="municipalityNisCodeControl"></sb-validation-messages>
+
+      <input
+        *ngIf="countryValue?.nisCode !== belgium"
+        formControlName="name"
+        type="text"
+        pInputText>
+      <sb-validation-messages [control]="municipalityNameControl"></sb-validation-messages>
+    </ng-container>
+  </div>
+</div>

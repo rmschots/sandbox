@@ -1,0 +1,22 @@
+<p-autoComplete
+  [formControl]="control"
+  [suggestions]="options"
+  appendTo="body"
+  [dropdown]="true"
+  [dropdownMode]="dropdownMode.Current"
+  [autoHighlight]="true"
+  dataKey="nisCode"
+  field="translation"
+  (completeMethod)="search($event)"
+  (onClear)="clear($event)"
+  [delay]="10"
+  (onDropdownClick)="handleDropdownClick($event)"
+  [placeholder]="placeholder"
+  [forceSelection]="forceSelection"
+>
+
+  <ng-template let-option pTemplate="item">
+    {{ option.nisCode }} - {{ option.translation }}
+  </ng-template>
+
+</p-autoComplete>

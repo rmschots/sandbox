@@ -1,6 +1,5 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { IntroStepDirective } from './intro-step/intro-step.directive';
-import { SharedModule } from '../../shared/shared.module';
 import { IntroService } from './services/intro.service';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { IntroOverlayComponent } from './overlay/intro-overlay/intro-overlay.component';
@@ -61,7 +60,7 @@ const ENTRY_COMPONENTS = [
 export class IntroModule {
   static forRoot(): ModuleWithProviders {
     return {
-      ngModule: SharedModule,
+      ngModule: IntroModule,
       providers: [...SERVICES, ...GUARDS]
     };
   }

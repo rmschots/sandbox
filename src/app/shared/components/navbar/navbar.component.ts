@@ -36,6 +36,10 @@ export class NavbarComponent implements OnInit {
         label: 'INTRO DEMO',
         icon: 'fa fa-fw fa-question-circle',
         routerLink: 'intro-demo'
+      }, {
+        label: 'PLACE COMPONENT',
+        icon: 'fa fa-fw fa-globe',
+        routerLink: 'place-component'
       }
     ];
   }

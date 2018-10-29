@@ -1,6 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { IntroDemoModule } from './intro-demo/intro-demo.module';
 
 @NgModule({
   imports: [
@@ -18,6 +17,9 @@ import { IntroDemoModule } from './intro-demo/intro-demo.module';
       }, {
         path: 'intro-demo',
         loadChildren: './intro-demo/intro-demo.module#IntroDemoModule'
+      }, {
+        path: 'place-component',
+        loadChildren: './place-component/place-component.module#PlaceComponentModule'
       }
     ], {useHash: false})
   ],

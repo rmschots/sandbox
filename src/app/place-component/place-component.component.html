@@ -1,0 +1,40 @@
+<div class="ui-g-12 ui-g-nopad">
+  <button (click)="formVisible = !formVisible">toggle visibility</button>
+  <button (click)="formVisible2 = !formVisible2">toggle visibility2</button>
+  <button (click)="printValidators()">print validators</button>
+  <button (click)="printValidators2()">print validators2</button>
+  <h3>control 1</h3>
+  <div>{{ form.controls['birthPlace'].valid }}</div>
+  <div>{{ form.controls['birthPlace'].value | json }}</div>
+  <div>{{ form.controls['birthPlace'].errors | json }}</div>
+  <h3>control 2</h3>
+  <div>{{ form.controls['birthPlace2'].valid }}</div>
+  <div>{{ form.controls['birthPlace2'].value | json }}</div>
+  <div>{{ form.controls['birthPlace2'].errors | json }}</div>
+</div>
+<ng-container>
+  <form novalidate [formGroup]="form" *ngIf="form" class="ui-g-12 ui-g-nopad">
+    <div class="ui-g ui-fluid">
+      <div class="ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 nopad" *ngIf="formVisible">
+          <sb-broken-generic-place
+            message="PERSON.PlaceOfBirth"
+            uiSize="4"
+            [field]="form.controls['birthPlace']"
+            [placeholderCountry]="'COMMON.DROPDOWNS.AutoCompleteMessageCountry'"
+            [placeholderMunicipality]="'COMMON.DROPDOWNS.AutoCompleteMessageMunicipality'">
+          </sb-broken-generic-place>
+        </div>
+        <div class="ui-g-12 nopad" *ngIf="formVisible2">
+          <sb-fixed-generic-place
+            message="PERSON.PlaceOfBirth"
+            uiSize="4"
+            [field]="form.controls['birthPlace2']"
+            [placeholderCountry]="'COMMON.DROPDOWNS.AutoCompleteMessageCountry'"
+            [placeholderMunicipality]="'COMMON.DROPDOWNS.AutoCompleteMessageMunicipality'">
+          </sb-fixed-generic-place>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-container>

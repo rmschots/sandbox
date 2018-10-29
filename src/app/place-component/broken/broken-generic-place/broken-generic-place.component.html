@@ -1,0 +1,15 @@
+<label class="ui-g-12 ui-lg-{{ uiLabel }} csLabel">
+  {{ message }}&nbsp;{{ required ? '*' : '' }}
+</label>
+
+<div class="ui-g-12 ui-lg-{{ uiSize }} generic-form-input nopad" [ngClass]="{'disabled':field.disabled}">
+  <sb-broken-place-input
+    [readonly]="readonly"
+    [formControl]="field"
+    [placeholderCountry]="placeholderCountry"
+    [placeholderMunicipality]="placeholderMunicipality">
+  </sb-broken-place-input>
+</div>
+<div class="ui-g-12 nopad ui-g-offset-2">
+  <sb-validation-messages [control]="field"></sb-validation-messages>
+</div>

@@ -1,0 +1,14 @@
+:host .ui-message {
+  background-color: transparent;
+  border: 0 none;
+  margin: 0px;
+  font-size: .75em;
+}
+
+:host .ui-message.ui-messages-error {
+  color: #e62a10;
+}
+
+:host .ui-message.ui-messages-warning {
+  color: #8a6714;
+}
